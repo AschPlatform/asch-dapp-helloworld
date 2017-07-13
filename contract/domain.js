@@ -1,5 +1,5 @@
 module.exports = {
-  register: async (address) => {
+  register: async function(address) {
     app.sdb.lock('domain.register@' + address)
     let exists = await app.model.Domain.exists({address: address})
     if (exists) return 'Address already registered'
@@ -9,7 +9,7 @@ module.exports = {
       suffix: this.address.split('.').pop()
     })
   },
-  set_ip: async (address, ip) => {
+  set_ip: async function(address, ip) {
     app.sdb.lock('domain.register@' + address)
     let exists = await app.model.Domain.exists({address: address})
     if (!exists) return 'Address not exists' 
