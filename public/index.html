@@ -38,6 +38,7 @@
                 success: function (ret) {
                     console.log(ret)
                     var $contractOptions = $('#contractOptions')
+                    $contractOptions.empty()
                     for (var i in ret.contracts) {
                         var c = ret.contracts[i]
                         $contractOptions.append('<option value="' + c.type + '">' + c.type + ': ' + c.name + '</option>')
@@ -119,7 +120,7 @@
                 secret: UserInfo.secret,
                 fee: fee,
                 type: Number($('#contractOptions').val()),
-                args: args
+                args: JSON.stringify(args)
             }
             console.log('invoke', data)
             $.ajax({
@@ -148,7 +149,7 @@
                 alert('Invalid params')
                 return
             }
-            
+
             $.ajax({
                 type: 'GET',
                 url: BASE_URL + $('#accessUrl').val(),
