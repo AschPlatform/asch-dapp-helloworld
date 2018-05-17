@@ -62,12 +62,16 @@
             <div class="two column row">
               <div class="column right aligned">
                   <div class="ui input">
-                    <input type="text" placeholder="nickname not set" v-model="newNickname">
+                    <input type="text"
+                          placeholder="nickname not set"
+                           v-model="newNickname"
+                           :warning="$v.newNickname.$invalid"
+                           :error="$v.newNickname.$invalid">
                 </div>
               </div>
 
               <div class="column left aligned">
-                <sui-button @click="setNickname" animated>
+                <sui-button @click="setNickname" animated :disabled="$v.newNickname.$invalid">
                   <sui-button-content visible>
                     <i class="icon user"></i>
                     Input nickname
@@ -84,6 +88,7 @@
 </template>
 
 <script>
+import aschJS from 'asch-js'
 import { create } from 'vue-modal-dialogs'
 import questiondialog from '../modal/questiondialog'
 
@@ -107,6 +112,19 @@ export default {
       return this.$store.state.userInfo.nickname
     }
   },
+  mounted: async function () {
+    console.log('mounted')
+    let that = this
+    let secret = this.$store.state.userInfo.secret
+
+    setTimeout(async function () {
+      let result = await that.$store.dispatch('getUserInfo', { that, secret, aschJS })
+      console.log('settimeout')
+      if (result.success && result.success === true) {
+        that.$noty.info('User balances was updated')
+      }
+    }, 10000)
+  },
   methods: {
     setNickname: async function () {
       let answer = await areYouSure({
@@ -123,6 +141,13 @@ export default {
         } else {
           this.$noty.error(result.error)
         }
+      }
+    }
+  },
+  validations: {
+    newNickname: {
+      length: function (value) {
+        return value.length > 0 && value.length < 256
       }
     }
   }
