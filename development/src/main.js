@@ -15,6 +15,7 @@ import transWithdrawArgsFilter from './utils/transWithdrawArgsFilter'
 import * as ModalDialogs from 'vue-modal-dialogs'
 import VueNoty from 'vuejs-noty'
 import Vuelidate from 'vuelidate'
+import { port, host, dappId } from './dappConfig.json'
 
 Vue.filter('truncate', filter)
 Vue.filter('aschTime', aschTimeFilter)
@@ -29,8 +30,11 @@ Vue.use(Vuelidate)
 console.log(aschJS)
 Vue.use(SuiVue)
 Vue.config.productionTip = false
+
+let baseUrl = `http://${host}:${port}/api/dapps/${dappId}/`
+console.log(`new dapp-endpoint is ${baseUrl}`)
 Vue.prototype.$axios = axios.create({
-  baseURL: process.env.API_ENDPOINT
+  baseURL: baseUrl
 })
 
 /* eslint-disable no-new */
