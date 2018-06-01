@@ -31,7 +31,7 @@ console.log(aschJS)
 Vue.use(SuiVue)
 Vue.config.productionTip = false
 
-let baseUrl = `http://${host}:${port}/api/dapps/${dappId}/`
+let baseUrl = `${host}:${port}/api/dapps/${dappId}/`
 console.log(`new dapp-endpoint is ${baseUrl}`)
 Vue.prototype.$axios = axios.create({
   baseURL: baseUrl
